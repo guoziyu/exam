@@ -1,0 +1,76 @@
+<extend name='common:index'/>
+<block name='left'>
+    <div class="vernav2 iconmenu">
+        <ul>
+            <li><a href="{:U('Admin/Other/schoolindex')}" class="elements">校区管理</a></li>
+            <li><a href="{:U('Admin/Other/classindex')}" class="elements">班期管理</a></li>
+            <li><a href="{:U('Admin/Other/subjectindex')}" class="elements">考试科目管理</a></li>
+            <li><a href="{:U('Admin/Other/typeindex')}" class="elements">考题类别管理</a></li>
+        </ul>
+        <a class="togglemenu"></a>
+        <br /><br />
+    </div><!--leftmenu-->
+</block>
+<block name='content'>
+    <div class="centercontent">
+    
+        <div class="pageheader">
+            <h1 class="pagetitle">科目</h1>
+            <span class="pagedesc">----------------------------</span>
+            
+            <ul class="hornav">
+                <li class="current"><a href="#updates">类别列表</a></li>
+                <li><a href="#activities">添加类别</a></li>
+            </ul>
+        </div><!--pageheader-->
+        <div id="contentwrapper" class="contentwrapper">
+        
+        	<div id="updates" class="subcontent">
+				<table cellpadding="0" cellspacing="0" border="0" id="table1" class="stdtable stdtablecb">
+                <colgroup>
+                    <col class="con0" style="width: 4%" />
+                    <col class="con1" />
+                    <col class="con0" />
+                    <col class="con1" />
+                    <col class="con0" />
+                    <col class="con1" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th class="head0"><input type="checkbox" class="checkall" /></th>
+                        <th class="head1">编号</th>
+                        <th class="head0">类别</th>
+                        <th class="head1">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <foreach name='school' item='data'>
+                    <tr>
+                        <td align="center"><input type="checkbox" /></td>
+                            <td>{$num++}</td>
+                            <td>{$data.name}</td>
+                            <td calss='center'>
+                               <a href="{:U('Admin/Student/edit',array('id'=>$data['id']))}" class="btn btn_book"><span>修改</span></a>
+                               <a href="{:U('Admin/Student/delete',array('id'=>$data['id']))}" class="btn btn_trash"><span>删除</span></a>
+                            </td>
+                    </tr>
+                </foreach>
+                </tbody>
+            </table>
+            </div><!-- #updates -->
+            
+            <div id="activities" class="subcontent" style="display: none;">
+                <form id="form1" class="stdform" method="post" action="">
+                	<p>
+                    	<label>类别名称</label>
+                        <span class="field"><input type="text" name="name" id="firstname" class="longinput" /></span>
+                    </p>
+                    <br />
+                    <p class="stdformbutton">
+                    	<button class="submit radius2">确认添加</button>
+                    </p>
+                </form>
+            </div><!-- #activities -->
+        	
+        </div><!--contentwrapper-->
+</block>

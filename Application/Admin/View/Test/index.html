@@ -1,0 +1,88 @@
+<extend name='common:index'/>
+<block name='left'>
+    <div class="vernav2 iconmenu">
+        <ul>
+            <li><a href="{:U('Admin/Test/index')}" class="buttons">题库列表</a></li>
+            <li><a href="{:U('Admin/Test/add')}" class="buttons">添加题目</a></li>
+        </ul>
+        <a class="togglemenu"></a>
+        <br /><br />
+    </div><!--leftmenu-->
+</block>
+<block name='content'>
+    <div class="centercontent tables">
+        <div id="contentwrapper" class="contentwrapper"> 
+            <div class="contenttitle2">
+                <h3>test  list</h3>
+            </div>
+            <form class="stdform" method="get" action="{:U('Admin/Test/index')}">
+                <div class="tableoptions">
+                    <button class="deletebutton radius3" title="table1">删除选中</button> &nbsp;
+                    <select class="radius3" style='min-width:50px;' name='subject_id'>
+                        <option>请选择学科</option>
+                        <foreach name='subject' item='row'>
+                            <option value="{$row['id']}" <if condition="$Think.get.subject_id eq $row['id']">selected</if>>{$row['name']}</option>
+                        </foreach>
+                    </select> &nbsp;
+                    <select class="radius3" style='min-width:100px;' name='type_id'>
+                        <option>请选择类型</option>
+                        <foreach name='type' item='rows'>
+                            <option value="{$rows['id']}" <if condition="$Think.get.type_id eq $rows['id']">selected</if>>{$rows['name']}</option>
+                        </foreach>
+                    </select> &nbsp;
+                    <div style='float:right;margin-right:500px;margin-top:-4px;'>
+                        <label>
+                            <input type='text' name='search' placeholder='题目' value='{$Think.get.search}'/>
+                        </label>
+                        <button class="deletebutton radius3" title="table1" style='margin-top:5px;'>搜索</button> &nbsp;
+                    </div>
+                </div>
+            </form>
+            <table cellpadding="0" cellspacing="0" border="0" id="table1" class="stdtable stdtablecb">
+                <colgroup>
+                    <col class="con0" style="width: 4%" />
+                    <col class="con1" />
+                    <col class="con0" />
+                    <col class="con1" />
+                    <col class="con0" />
+                    <col class="con1" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th class="head0"><input type="checkbox" class="checkall" /></th>
+                        <th class="head1">学科</th>
+                        <th class="head0">类型</th>
+                        <th class="head1">题目</th>
+                        <th class="head0">时间</th>
+                        <th class="head1">状态</th>
+                        <th class="head1">操作</th>
+                    </tr>
+                </thead>
+                <foreach name='test' item='data' >
+                    <tr>
+                        <td align="center"><input type="checkbox" /></td>
+                            <td>{$data.names}</td>
+                            <td>{$data.name}</td>
+                            <td>{$data.question}</td>
+                            <td>{$data.addtime}</td>
+                            <td>
+								<if condition="$data.status eq 1">
+									<a href=''>启用</a>
+									<else /> 
+									<a href=''>禁用</a>
+								</if>
+                            </td>
+                            <td calss='center'>
+                               <a href="{:U('Admin/Test/edit',array('id'=>$data['id']))}" class="btn btn_book"><span>修改</span></a>
+                               <a href="{:U('Admin/Test/delete',array('id'=>$data['id']))}" class="btn btn_trash"><span>删除</span></a>
+                               <a href="{:U('Admin/Test/info',array('id'=>$data['id']))}" class="btn btn_bulb"><span>详情</span></a>
+                            </td>
+                    </tr>
+                    </foreach>
+            </table>
+            <div class="pagination" style='float:right;margin-top:10px'>
+                {$page}
+            </div>
+        </div>
+    </div>
+</block>

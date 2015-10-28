@@ -1,0 +1,121 @@
+<extend name='common:index'/>
+<block name='left'>
+    <div class="vernav2 iconmenu">
+        <ul>
+            <li><a href="{:U('Admin/Test/index')}" class="buttons">题库列表</a></li>
+            <li><a href="{:U('Admin/Test/add')}" class="buttons">添加题目</a></li>
+        </ul>
+        <a class="togglemenu"></a>
+        <br /><br />
+    </div><!--leftmenu-->
+</block>
+<block name='content'>
+	<div class="centercontent">
+        <div id="contentwrapper" class="contentwrapper">
+            <div id="validation" class="subcontent">
+            	<div class="contenttitle2">
+                    <h3>insert Test</h3>
+                </div><!--contenttitle-->
+                    <form id="form1" class="stdform" method="post" action="{:U('Admin/Test/update')}">
+                        <p>
+                            <label>题目类型</label>
+                            <b>{$types['0']['names']}</b>
+                        </p>
+
+                        <p class='sort'>
+                            <label>题目类型</label>
+                            <b>{$types['0']['name']}</b>
+                        </p>
+                        <switch name="types.0.typeid">
+
+                            <case value="1" >
+                                <p>
+                                    <label>问题</label>
+                                    <span class="field">
+                                        <textarea cols="80" rows="5" name="question" class="mediuminput" id="location" style="resize:none">{$types['0']['question']}</textarea>
+                                    </span>
+                                </p>
+                                <p>
+                                    <label>答案A</label>
+                                    <span class="field">
+                                        <textarea cols="80" rows="5" name="A" class="mediuminput" id="location" style="resize:none">{$types['0']['A']}</textarea>
+                                    </span>
+                                </p>
+                                <p>
+                                    <label>答案B</label>
+                                    <span class="field">
+                                        <textarea cols="80" rows="5" name="B" class="mediuminput" id="location" style="resize:none">{$types['0']['B']}</textarea>
+                                    </span>
+                                </p>
+                                <p>
+                                    <label>答案C</label>
+                                    <span class="field">
+                                        <textarea cols="80" rows="5" name="C" class="mediuminput" id="location" style="resize:none">{$types['0']['C']}</textarea>
+                                    </span>
+                                </p>
+                                <p>
+                                    <label>答案D</label>
+                                    <span class="field">
+                                        <textarea cols="80" rows="5" name="D" class="mediuminput" id="location" style="resize:none">{$types['0']['D']}</textarea>
+                                    </span>
+                                </p>
+                                <p>
+                                    <label>正确答案</label>
+                                    <span class="field">
+                                        
+                                        <input type="checkbox" name="answer[]" value="A"  <if condition = "$types['0']['answer'] eq A" > checked</if>/> A&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="answer[]" value="B"  <if condition = "$types['0']['answer'] eq B" > checked</if>/> B&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="answer[]" value="C"  <if condition = "$types['0']['answer'] eq C" > checked</if>/> C &nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="answer[]" value="D"  <if condition = "$types['0']['answer'] eq D" > checked</if>/> D
+                                    </span>
+                                </p>
+                            </case>
+                            <case value="2">
+                                <p>
+                                    <label>问题</label>
+                                    <span class="field">
+                                        <textarea cols="80" rows="5" name="question" class="mediuminput" id="location" style="resize:none">{$types['0']['question']}</textarea>
+                                    </span>
+                                </p>
+                                <p>
+                                    <label>答案<br/>请用分号；分割</label>
+                                    <span class="field">
+                                        <textarea cols="80" rows="5" name="answer" class="mediuminput" id="location" style="resize:none">{$types['0']['answer']}</textarea>
+                                    </span>
+                                </p>
+                            </case>
+                            <case value="3">
+                                <p>
+                                    <label>上传代码截图</label>
+                                    <span class="field">
+                                        <input type="file" name="pic" />
+                                    </span>
+                                </p>
+                                <p>
+                                    <label>答案<br/>请用分号；分割</label>
+                                    <span class="field">
+                                        <textarea cols="80" rows="5" name="answer" class="mediuminput" id="location" style="resize:none"></textarea>
+                                    </span>
+                                </p>
+                            </case>
+                        </switch>
+                        <div class='remark'>
+						  <p>
+                            <label>备注</label>
+                            <span class="field">
+                                <textarea cols="80" rows="5" name="remark" class="mediuminput" id="location" style="resize:none">{$types['0']['remark']}</textarea>
+                            </span>
+                            </p>
+						</div>
+                        <br />
+                        <input type='hidden' value="{$types['0']['id']}" name='id' />
+                        <p class="stdformbutton">
+                        	<button class="submit radius2">确认修改</button>
+                        </p>
+                    </form>
+
+            </div><!--subcontent-->
+        
+        </div><!--contentwrapper-->
+	</div>
+</block>

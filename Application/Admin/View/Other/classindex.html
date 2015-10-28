@@ -1,0 +1,205 @@
+<extend name='common:index'/>
+<block name='left'>
+    <div class="vernav2 iconmenu">
+        <ul>
+            <li><a href="{:U('Admin/Other/schoolindex')}" class="elements">校区管理</a></li>
+            <li><a href="{:U('Admin/Other/classindex')}" class="elements">班期管理</a></li>
+            <li><a href="{:U('Admin/Other/subjectindex')}" class="elements">考试科目管理</a></li>
+            <li><a href="{:U('Admin/Other/typeindex')}" class="elements">考题类别管理</a></li>
+        </ul>
+        <a class="togglemenu"></a>
+        <br /><br />
+    </div><!--leftmenu-->
+</block>
+<block name='content'>
+    <div class="centercontent">
+    
+        <div class="pageheader">
+            <h1 class="pagetitle">班期</h1>
+            <span class="pagedesc">----------------------------</span>
+            
+            <ul class="hornav">
+                <li class="current"><a href="#updates">班期列表</a></li>
+                <li><a href="#activities">添加班期</a></li>
+            </ul>
+        </div><!--pageheader-->
+        <div id="contentwrapper" class="contentwrapper">
+        
+        	<div id="updates" class="subcontent">
+				<table cellpadding="0" cellspacing="0" border="0" id="table1" class="stdtable stdtablecb">
+                <colgroup>
+                    <col class="con0" style="width: 4%" />
+                    <col class="con1" />
+                    <col class="con0" />
+                    <col class="con1" />
+                    <col class="con0" />
+                    <col class="con1" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th class="head0"><input type="checkbox" class="checkall" /></th>
+                        <th class="head1">编号</th>
+                        <th class="head0">班期</th>
+                        <th class="head1">校区</th>
+                        <th class="head0">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <foreach name='main' item='class'>
+                    <tr tabindex='-1' style="outline:none" >
+                    	<td align="center"><input type="checkbox" /></td>
+                        <td>{$num++}</td>
+                        <td>{$class['name']}</td>
+                        <td style="display:table-cell;">{$class['names']}</td>
+                        <td style="display:none;">
+                        	<select name='school_id' class="edit_select">
+                       		<foreach name='data' item='classname'>
+                        	<option value='{$classname['id']}' <if condition="$class['names'] eq $classname['names']">selected="selected"</if> >{$classname['names']}</option>
+                        	</foreach>
+                        	</select>
+                        </td>
+                        <td class='center'>
+                        	<input type="hidden" value="{$class['id']}" name="id" class="edit_id">
+                           <!--{:U('Admin/Student/edit',array('id'=>$data['id']))} <a>原标签中传值-->
+                          
+                            <a href="javascript:void(0)" class="btn btn_book"><span class="edits">修改</span></a>
+							<a href="javascript:void(0)" class="btn btn_book"><span class="sure_edit" style="display:none;">确认修改</span></a>
+                            <a href="{:U('Admin/Other/deleteclass',array('id'=>$class['id']))}" class="btn btn_trash"><span class="dels">删除</span></a>
+							<a href="javascript:void(0)" class="btn btn_info"><span class="exits" style="display:none;">取消</span></a>
+                        </td>
+                    </tr>
+                </foreach>
+                </tbody>
+            </table>
+            
+            </div><!-- #updates -->
+            
+            <div id="activities" class="subcontent" style="display:none;" >
+                <form id="form1" class="stdform" method="post" action="{:U('Admin/Other/Addclass')}">
+                    <p>
+                        <label>校区名称</label>
+                        <select class="radius3" name='school_id'>
+                            <!-- <option value="">请选择校区</option> -->
+                            <foreach name='data' item='classname'>
+                                <option value="{$classname['id']}">{$classname['names']}</option>
+                            </foreach>
+                        </select> &nbsp;
+                    </p>
+                	<p>
+                    	<label>班期名称</label>
+                        <span class="field"><input type="text" name="name" id="firstname" class="longinput" /></span>
+                    </p>
+                    <br />
+                    <p class="stdformbutton">
+                    	<button class="submit radius2">确认添加</button>
+                    </p>
+                </form>
+            </div><!-- #activities -->
+        	 
+        </div><!--contentwrapper-->
+		<script style="text/javascript" charset="utf-8">
+/**
+*oldText1表示第一个表格中的旧数据
+*...
+*/
+			//修改单击事件
+			$(".edits").click(function(){
+
+				//获取当前修改信息的id值
+				var edit_id = $(this).parent().prev().val();
+		        	
+		        //获取要修改的文本信息。
+		        var oldText1 = $(this).parent().parent().prev().prev().prev().text();
+		        var oldText2 = $(this).parent().parent().prev().prev().text();
+
+		        //编写html添加进去。
+		        var html = "<input type='text' name='username'  placeholder='"+oldText1+"' class = 'edit_input'/> ";
+
+		        //清空班期原有数据。
+		        $(this).parent().parent().prev().prev().prev().text('');
+
+		        //添加input表单。
+		        $(this).parent().parent().prev().prev().prev().append(html);
+
+		        //修改html状态
+		        $(this).css('display','none');//隐藏当前修改按钮
+		        $(this).parent().parent().prev().prev("td").css('display','none');//隐藏班期td
+		        $(this).parent().parent().prev("td").css('display','table-cell');//显示校区td
+		        $(this).parent().next().children('span.sure_edit').css('display','block');//显示确认修改按钮
+				var dels = $(this).parent().next().next();//隐藏删除按钮
+				
+				dels.children().css('display','none');
+				var exits = $(this).parent().next().next().next();//显示取消按钮
+				
+				exits.children().css('display','block');
+				
+		        //绑定焦点事件
+		        $('.edit_input').focus();
+			
+				//alert(out);
+				//失去焦点事件
+				var that = $(this);
+				
+				$(exits).click(function(){
+					that.css('display','block');//显示之前修改按钮
+					that.parent().next().children('span.sure_edit').css('display','none');//隐藏确认修改按钮
+					that.parent().parent().prev().prev().prev().text('');//清空班期内容
+					that.parent().parent().prev().prev().prev('td').append(oldText1);//添加班期文本
+					that.parent().parent().prev('td').css('display','none');//隐藏校区td
+					that.parent().parent().prev().prev("td").css('display','table-cell');//显示校区td
+					exits.children().css('display','none');//隐藏取消按钮
+					dels.children().css('display','block');//显示删除按钮
+				});
+				
+				
+				
+		    });
+			
+			
+		/**
+		*	确认修改事件
+		*.sure_edit	确认修改按钮
+		*/
+		       // 确认修改按钮的事件
+		        $('.sure_edit').click(function(){
+		        	// 修改后的input文本值和select文本值
+		        	var edit_id = $(this).parent().prev().prev().val();//当前信息的id值
+			        var newText1 = $(this).parent().parent().prev().prev().prev().children('input').val(); //input文本信息
+			        var newText2 = $(this).parent().parent().prev().children().children('option:selected').val();
+			        var newText3 = $(this).parent().parent().prev().children().children('option:selected').text();
+			        // alert(newText3);
+			        var that = $(this);
+			        //判断input是否为空
+			        if(newText1==''){
+			        	alert('请输入信息');
+			        }else{
+			        	$.post('{:U('Admin/Other/editclass')}',{'edit_id':edit_id,'input_value':newText1,'select_id':newText2},function(data){
+		                    if(data == 1){
+
+		                    	//样式改变
+		                    	that.css('display','none');
+		                    	that.parent().prev().children().css('display','block');
+		                        that.parent().parent().prev().css('display','none');
+		                        that.parent().parent().prev().prev().css('display','table-cell');
+
+		                        //清空节点信息
+		                        that.parent().parent().prev().prev().prev().text('');
+		                        that.parent().parent().prev().prev().text('');
+
+		                        //填充信息
+		                        var text1 = newText1;
+		                        var text2 = newText3;
+		                        that.parent().parent().prev().prev().prev().append(text1);
+		                        that.parent().parent().prev().prev().append(text2);
+
+				            }else{
+				            	alert('修改失败！');
+				            }
+				        });
+			        }
+			    }); 
+
+    
+			
+		</script>
+</block>

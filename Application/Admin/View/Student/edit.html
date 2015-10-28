@@ -1,0 +1,98 @@
+<extend name='common:index'/>
+<block name='left'>
+    <div class="vernav2 iconmenu">
+        <ul>
+            <li><a href="{:U('Admin/Student/index')}" class="buttons">学员列表</a></li>
+            <li><a href="{:U('Admin/Student/add')}" class="buttons">添加学员</a></li>
+        </ul>
+        <a class="togglemenu"></a>
+        <br /><br />
+    </div><!--leftmenu-->
+</block>
+<block name='content'>
+
+<div class="centercontent">
+    <div id="contentwrapper" class="contentwrapper">
+        <div id="validation" class="subcontent">
+        	<div class="contenttitle2">
+                <h3>edit student</h3>
+            </div><!--contenttitle-->
+                <form id="form1" class="stdform" method="post" action="{:U('Admin/Student/update')}">
+                <input type='hidden' value='{$id}' name = 'id'/>
+                	<p>
+                    	<label>姓名</label>
+                        <span class="field"><input type="text" name="name" id="firstname" class="longinput" value='{$edit_stu.name}'/></span>
+                    </p>
+                    
+                    <p>
+                    	<label>学号</label>
+                        <span class="field"><input type="text" name="number_id" id="number" class="longinput" value='{$edit_stu.number_id}'/></span>
+                    </p>
+                    
+                    <p>
+                    	<label>性别</label>
+                        <span class="formwrapper">
+                        	<input type="radio" name="sex"  value = '0' <if condition="$edit_stu.sex eq 0">checked</if>/>男
+                        	<input type="radio" name="sex" value = '1'  <if condition="$edit_stu.sex eq 1">checked</if>/>女
+                        </span>
+                    </p>
+                    <p>
+                    	<label>校区</label>
+                        <span class="field">
+                        <select name="school_id" id="selection" class='school'>
+                            <foreach name='school' item='data'>
+                                <option value='{$data["id"]}' <if condition="$edit_stu.school_id eq $data['id']"> selected='selected'</if>>{$data['names']}</option>
+                            </foreach>
+                        </select>
+                        </span>
+                    </p>
+                   <p>
+
+                    	<label>班期</label>
+                        <span class="field">
+                        <select name="class_id" id="selection" class='classes'>
+
+                        	<foreach name='class' item='row'>
+
+                                <option value='{$row["id"]}'<if condition="$edit_stu.class_id eq $row['id']">selected</if>>{$row['name']}</option>
+                            </foreach>
+                        </select>
+                        </span>
+                    </p>
+                    <p>
+                    	<label>备注</label>
+                        <span class="field"><textarea cols="80" rows="5" name="remark" class="mediuminput" id="location" style="resize:none"></textarea></span> 
+                    </p>
+                    <br />
+                    
+                    <p class="stdformbutton">
+                    	<button class="submit radius2">确认修改</button>
+                    </p>
+                </form>
+
+        </div><!--subcontent-->
+    
+    </div><!--contentwrapper-->
+
+</div><!-- centercontent -->
+<script type="text/javascript">
+    $('.school').change(function(){
+        var id = $(this).val();
+        if(id != '0'){
+            $.get('{:U('Admin/Student/addajax')}',{id:id},function(data){
+                    var data = $.parseJSON(data);
+                    // var html ="<option  value='0'>请选择</option>";
+                    $('.classes').empty();
+                    for(var i in data){
+                        html = "<option value="+data[i]['id']+">"+data[i]['name']+"</option>";
+                        $('.classes').append(html);
+                    }
+            },'json');
+        }else{
+            html2 = "<option value='0'>请选择</option>";
+            $('.classes').empty();
+            $('.classes').append(html2);
+        }
+    });
+</script>
+</block>

@@ -1,0 +1,90 @@
+<extend name='common:index'/>
+<block name='left'>
+    <div class="vernav2 iconmenu">
+        <ul>
+            <li><a href="{:U('Admin/Test/index')}" class="buttons">题库列表</a></li>
+            <li><a href="{:U('Admin/Test/add')}" class="buttons">添加题目</a></li>
+        </ul>
+        <a class="togglemenu"></a>
+        <br /><br />
+    </div><!--leftmenu-->
+</block>
+<block name='content'>
+	<div class="centercontent">
+        <div id="contentwrapper" class="contentwrapper">
+            <div id="validation" class="subcontent">
+            	<div class="contenttitle2">
+                    <h3>insert Test</h3>
+                </div><!--contenttitle-->
+                    <form id="form1" class="stdform" method="post" action="{:U('Admin/Test/insert')}">
+                    	<p>
+
+                        	<label>试题科目</label>
+                            <select name="sub_id" id="selection">
+                                <foreach name='sub' item='data'>
+                                	<option value="{$data.id}">
+                                		{$data.name}
+                                	</option>
+                                </foreach>
+                            </select>
+                        </p>
+                        
+                        <p class='sort'>
+                        	<label>题目类型</label>
+                            <select name="type" id="selection" class='types'>
+                            	<option value="0">请选择</option>
+                            	<foreach name='type' item='row'>
+                                	<option value="{$row.id}">{$row.name}</option>
+                                </foreach>
+                            </select>
+                        </p>
+                        <div class='remark' style="display:none">
+						<p>
+							<label>备注</label>
+							<span class="field">
+								<textarea cols="80" rows="5" name="remark" class="mediuminput" id="location" style="resize:none"></textarea>
+							</span>
+						</p>
+						</div>
+                        <br />
+                        
+                        <p class="stdformbutton">
+                        	<button class="submit radius2">确认添加</button>
+                        </p>
+                    </form>
+
+            </div><!--subcontent-->
+        
+        </div><!--contentwrapper-->
+        
+	</div>
+<script type="text/javascript">
+	$('.types option').click(function(){
+		var num = $(this).val();
+		switch(num){
+			case '0' :
+				$('.short').empty();
+                $('.remark').css('display','none');
+			break;
+			case '1' :
+				html1 = '<div class="short"><p><label>问题</label><span class="field"><textarea cols="80" rows="5" name="question" class="mediuminput" id="location" style="resize:none"></textarea></span></p><p><label>答案A</label><span class="field"><textarea cols="80" rows="5" name="A" class="mediuminput" id="location" style="resize:none"></textarea></span></p><p><label>答案B</label><span class="field"><textarea cols="80" rows="5" name="B" class="mediuminput" id="location" style="resize:none"></textarea></span></p><p><label>答案C</label><span class="field"><textarea cols="80" rows="5" name="C" class="mediuminput" id="location" style="resize:none"></textarea></span></p><p><label>答案D</label><span class="field"><textarea cols="80" rows="5" name="D" class="mediuminput" id="location" style="resize:none"></textarea></span></p><p><label>正确答案</label><span class="field"><input type="checkbox" name="answer[]" value="A"/> A&nbsp;&nbsp;&nbsp;<input type="checkbox" name="answer[]" value="B"/> B&nbsp;&nbsp;&nbsp;<input type="checkbox" name="answer[]" value="C"/> C &nbsp;&nbsp;&nbsp;<input type="checkbox" name="answer[]" value="D"/> D</span></p></div>';
+				$('.short').empty();
+                $('.sort').append(html1);
+                $('.remark').css('display','block');
+			break;
+			case '2' :
+				html2 = '<div class="short"><p><label>问题</label><span class="field"><textarea cols="80" rows="5" name="question" class="mediuminput" id="location" style="resize:none"></textarea></span></p><p><label>答案<br/>请用分号；分割</label><span class="field"><textarea cols="80" rows="5" name="answer" class="mediuminput" id="location" style="resize:none"></textarea></span></p></div>';
+				$('.short').empty();
+                $('.sort').append(html2);
+                $('.remark').css('display','block');
+			break;
+			case '3' :
+				html3='<div class="short"><p><label>上传代码截图</label><span class="field"><input type="file" name="picname" /></span></p><p><label>答案<br/>请用分号；分割</label><span class="field"><textarea cols="80" rows="5" name="answer" class="mediuminput" id="location" style="resize:none"></textarea></span></p></div>';
+				$('.short').empty();
+                $('.sort').append(html3);
+                $('.remark').css('display','block');
+			break;
+		}
+	})
+</script>
+</block>

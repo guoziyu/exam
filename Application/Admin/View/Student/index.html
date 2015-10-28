@@ -1,0 +1,119 @@
+<extend name='common:index'/>
+<block name='left'>
+    <div class="vernav2 iconmenu">
+        <ul>
+            <li><a href="{:U('Admin/Student/index')}" class="buttons">学员列表</a></li>
+            <li><a href="{:U('Admin/Student/add')}" class="buttons">添加学员</a></li>
+        </ul>
+        <a class="togglemenu"></a>
+        <br /><br />
+    </div><!--leftmenu-->
+</block>
+<block name='content'>
+    <div class="centercontent">
+        <div id="contentwrapper" class="contentwrapper"> 
+            <div class="contenttitle2">
+                <h3>student  list</h3>
+            </div>
+                <if condition='$Think.get.status == 1' >
+                    <div class="notibar msgsuccess">
+                        <a class="close"></a>
+                        <p>删除成功</p>
+                    </div>
+                </if>
+            <form class="stdform" method="get" action="{:U('Admin/student/index')}">
+                <div class="tableoptions">
+                    <button class="" title="" name='deletes'>删除选中</button> &nbsp;
+                    <select class="radius3" style='min-width:10px' name='school_id' id='school_ajax'>
+                        <option value='0'>请选择校区</option>
+                        <foreach name='sch' item='school'>
+                            <option value="{$school['id']}" <if condition="$Think.get.school_id eq $school['id']">selected</if> >{$school['names']}</option>
+                        </foreach>
+                    </select> &nbsp;
+                    <select class="radius3" style='min-width:10px;' name='class_id' id='class_name'>
+                        <option value='0'>请选择班期</option>
+                        <foreach name='cla' item='class'>
+                            <option value="{$class['id']}" <if condition="$Think.get.class_id eq $class['id']">selected</if>  >{$class['name']}</option>
+                        </foreach>
+                    </select> &nbsp;
+                    <div style='float:right;margin-right:450px;margin-top:-4px;'>
+                        <label>
+                            <input type='text' name='search' placeholder='姓名' value='{$Think.get.search}' />
+                        </label>
+                        <button class="deletebutton radius3" title="搜索" style='margin-top:5px;' name='seach'>搜索</button> &nbsp;
+                    </div>
+                </div>
+            </form>
+            <table cellpadding="0" cellspacing="0" border="0" id="table1" class="stdtable stdtablecb">
+                <colgroup>
+                    <col class="con0" style="width: 4%" />
+                    <col class="con1" />
+                    <col class="con0" />
+                    <col class="con1" />
+                    <col class="con0" />
+                    <col class="con1" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th class="head0"><input type="checkbox" class="checkall" /></th>
+                        <th class="head1">姓名</th>
+                        <th class="head0">学号</th>
+                        <th class="head1">班期</th>
+                        <th class="head0">校区</th>
+                        <th class="head1">操作</th>
+                    </tr>
+                </thead>
+                <tbody class='tbodys'>
+                <foreach name='students' item='data' >
+                    <tr>
+                        <td align="center"><input type="checkbox" /></td>
+                            <td>{$data.name}</td>
+                            <td>{$data.number_id}</td>
+                            <td>{$data.cnames}</td>
+                            <td>{$data.names}</td>
+                            <td calss='center'>
+                               <a href="{:U('Admin/Student/edit',array('id'=>$data['id']))}" class="btn btn_book"><span>修改</span></a>
+                               <a href="{:U('Admin/Student/delete',array('id'=>$data['id']))}" class="btn btn_trash" ><span class='del'>删除</span></a>
+                               <a href="{:U('Admin/Result/info',array('id'=>$data['id']))}" class="btn btn_bulb"><span>成绩详情</span></a>
+                            </td>
+                    </tr>
+                    </foreach>
+                </tbody>
+            </table>
+            <div class="pagination" style='float:right;margin-top:10px'>
+                {$page}
+            </div>
+        </div>
+</div>
+<script type="text/javascript">
+//ajax 搜索
+$('#school_ajax').change(function(){
+    var id = $(this).val();
+    var html = ' <option value="0">请选择班期</option>';
+    var html2 = '<tr>';
+    if(id != '0'){
+        $.post('{:U('Admin/Student/ajax_sosou')}',{id:id},function(data){
+            // alert(data);
+            for(var i in data['class']){
+                html += '<option value='+data['class'][i]['id']+'>'+data['class'][i]['name']+'</option>';
+           }
+            $('#class_name').empty().append(html);
+            
+            // for(var s in data['stu']){
+            //     html2 +='<td align="center"><input type="checkbox" /></td><td>'+data['stu'][s]['name']+'</td><td>'+data['stu'][s]['number_id']+'</td><td>'+data['stu'][s]['cname']+'</td><td>'+data['stu'][s]['sname']+'</td><td calss="center"><a href="{:U('Admin/Student/edit')}?id='+data['stu'][s]['id']+' "class="btn btn_book"><span>修改</span></a><a href="{:U('Admin/Student/delete')}?id='+data['stu'][s]['id']+'" class="btn btn_trash"><span>删除</span></a><a href="{:U('Admin/Result/info',array("id"=>$data["id"]))}" class="btn btn_bulb"><span>成绩详情</span></a></td>';
+            //     html2 +='</tr>';
+            // }
+
+            // $('.tbodys').empty().append(html2);
+        });
+    }
+})
+$('.del').click(function(){
+    if(confirm('确定删除吗?')){
+
+    }else{
+        return false;
+    }
+})
+</script>
+</block>
